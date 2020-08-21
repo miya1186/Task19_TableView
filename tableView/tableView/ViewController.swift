@@ -65,13 +65,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     
     
-    @IBAction func addButton(_ sender: Any) {
-        performSegue(withIdentifier: "AddSegue", sender: nil)
-        
-    }
+//不要なボタンアクション削除
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let fruitItemRow = fruitItemRow else { return }
         let nav = segue.destination as? UINavigationController
         if let add = nav?.topViewController as? AddViewController{
             
@@ -79,6 +75,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             case "AddSegue":
                 add.mode = AddViewController.Mode.add
             case "EditSegue":
+                //AddSegueではfruitItemRowはnilでも問題ないので、guard letは "EditSegue"内で宣言
+                guard let fruitItemRow = fruitItemRow else { return }
                 add.mode = AddViewController.Mode.edit
                 add.fruitName = fruitItems[fruitItemRow].name
             default:
